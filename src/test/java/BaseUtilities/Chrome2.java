@@ -18,6 +18,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
@@ -27,8 +28,8 @@ import org.testng.annotations.BeforeMethod;
 public class Chrome2 {
 	
 	
-	protected static WebDriver driver ;
-	
+	protected static WebDriver d ;
+	protected EventFiringWebDriver driver;
 
   @BeforeMethod 
   public void beforeTest() throws IOException  {
@@ -42,8 +43,11 @@ public class Chrome2 {
 	  ChromeOptions o = new ChromeOptions();
 	  o.addArguments("disable-extensions");
 	  o.addArguments("--start-maximized");
-	  driver = new ChromeDriver(o);
+	  d = new ChromeDriver(o);
 	  
+	  driver = new EventFiringWebDriver(d);
+	  HandleEvents he = new HandleEvents();
+	  driver.register(he);
 	  
 	  driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
    

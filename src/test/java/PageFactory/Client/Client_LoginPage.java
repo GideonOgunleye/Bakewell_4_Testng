@@ -47,7 +47,7 @@ public class Client_LoginPage extends DriverLoad {
 	@FindBy (name="data[User][password]")
 	WebElement Password;
 	
-	@FindBy (xpath=".//*[@id='UserMysslLoginForm']/button")
+	@FindBy (xpath=".//*[@id='UserMysslLoginForm']/button**")
 	WebElement LoginButton;
 	
 	@FindBy (xpath = ".//*[@id='top-panel']/div[1]/span[1]/a[2]")
@@ -145,7 +145,7 @@ public class Client_LoginPage extends DriverLoad {
 		
 		AdminLogoutButton.click();
 		driver.manage().timeouts().implicitlyWait(30,TimeUnit.SECONDS);
-		//Assert.assertTrue(driver.getTitle().contains("MySSL® Account Login"));
+		//Assert.assertTrue(driver.getTitle().contains("MySSLï¿½ Account Login"));
 	}
 	
 	public boolean AdminLogoutButtonIsVisible () {
@@ -214,7 +214,7 @@ public class Client_LoginPage extends DriverLoad {
 			driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 			
 			//String Status = driver.getTitle();
-			//Assert.assertTrue(Status.contains("MySSL® » Dashboard"));
+			//Assert.assertTrue(Status.contains("MySSLï¿½ ï¿½ Dashboard"));
 
 		}
 		
@@ -292,7 +292,7 @@ public class Client_LoginPage extends DriverLoad {
 			ClickLoginButton();
 			driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
 			String Status = driver.getTitle();
-			Assert.assertTrue(Status.contains("MySSL® » Dashboard"));
+			Assert.assertTrue(Status.contains("MySSLï¿½ ï¿½ Dashboard"));
 
 		}
 		

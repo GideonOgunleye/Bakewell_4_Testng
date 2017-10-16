@@ -18,7 +18,7 @@ public class HandleEvents implements WebDriverEventListener {
 	public void afterAlertDismiss(WebDriver arg0) {
 		// TODO Auto-generated method stub
 		
-	}
+	} 
 
 	@Override
 	public void afterChangeValueOf(WebElement arg0, WebDriver arg1, CharSequence[] arg2) {
@@ -30,7 +30,7 @@ public class HandleEvents implements WebDriverEventListener {
 	public void afterClickOn(WebElement arg0, WebDriver arg1) {
 		// TODO Auto-generated method stub
 		
-		System.out.println("After clicking on element " + arg0.toString());
+		//System.out.println("After clicking on element " + arg0.toString());
 	}
 
 	@Override
@@ -133,6 +133,8 @@ public class HandleEvents implements WebDriverEventListener {
 	public void onException(Throwable arg0, WebDriver arg1) {
 		// TODO Auto-generated method stub
 		
+		System.out.println("Exception " + arg0.toString());
+		arg1.close();
 	}
 
 	
