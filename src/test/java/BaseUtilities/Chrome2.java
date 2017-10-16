@@ -28,8 +28,8 @@ import org.testng.annotations.BeforeMethod;
 public class Chrome2 {
 	
 	
-	protected static WebDriver d ;
-	protected EventFiringWebDriver driver;
+	protected static WebDriver Driver ;
+	protected EventFiringWebDriver eDriver;
 
   @BeforeMethod 
   public void beforeTest() throws IOException  {
@@ -43,13 +43,13 @@ public class Chrome2 {
 	  ChromeOptions o = new ChromeOptions();
 	  o.addArguments("disable-extensions");
 	  o.addArguments("--start-maximized");
-	  d = new ChromeDriver(o);
+	  Driver = new ChromeDriver(o);
 	  
-	  driver = new EventFiringWebDriver(d);
+	  eDriver = new EventFiringWebDriver(Driver);
 	  HandleEvents he = new HandleEvents();
-	  driver.register(he);
+	  eDriver.register(he);
 	  
-	  driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+	  eDriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
    
   }
 
@@ -59,7 +59,7 @@ public class Chrome2 {
 	  Thread.sleep(1000);
 		 //report.endTest(test);
 		 
-	driver.quit();
+	eDriver.quit();
 
 	  
   }
