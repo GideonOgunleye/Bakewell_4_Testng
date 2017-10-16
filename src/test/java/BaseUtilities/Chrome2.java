@@ -30,7 +30,7 @@ public class Chrome2 {
 	protected static WebDriver driver ;
 	
 
-  @Before 
+  @BeforeMethod 
   public void beforeTest() throws IOException  {
 	
  	 
@@ -49,7 +49,7 @@ public class Chrome2 {
    
   }
 
-  @After 
+  @AfterMethod 
   public void afterTest() throws Exception {
 	  
 	  Thread.sleep(1000);

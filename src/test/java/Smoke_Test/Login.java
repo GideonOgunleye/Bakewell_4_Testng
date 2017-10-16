@@ -17,6 +17,7 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import com.browserstack.local.Local;
 import com.relevantcodes.extentreports.ExtentReports;
@@ -86,10 +87,10 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class Login {
+public class Login extends Chrome2 {
 	
-	static WebDriver driver;
-	private Local l;
+	//static WebDriver driver;
+	//private Local l;
 	
 	ExtentReports report;
 	ExtentTest test;
@@ -114,8 +115,8 @@ public class Login {
 	Client_RegisterDomainPage RegisterDomainPageElements;
 	Client_DomainNamesEditPage DomainNamesEditPageElements;
 	
-	@Before
-	public void LoadElements(Scenario scenario) throws Exception {
+	@BeforeMethod (groups = {"Sanity","Smoke","BS_Smoke","BS_Sanity","Sanity_Chrome"})
+	public void LoadElements() throws Exception {
 		
 /*	   System.setProperty("webdriver.chrome.driver", "C:\\chromedriver-2.exe");
 	   //driver = new ChromeDriver();  
@@ -127,22 +128,8 @@ public class Login {
 	   o.addArguments("--start-maximized");
 	   driver = new ChromeDriver(o);
 */		
-		
-        String USERNAME = System.getenv("developmentteam12");
-        String ACCESS_KEY = System.getenv("AKNscSG2dLkmDUkzTRyJ");
-        String URL = "https://" + USERNAME + ":" + ACCESS_KEY + "@hub.browserstack.com/wd/hub";
-
-        DesiredCapabilities caps = new DesiredCapabilities();
-        caps.setCapability("browser", System.getProperty("browser"));
-
-        if (System.getProperty("local") != null && System.getProperty("local").equals("true")) {
-            caps.setCapability("browserstack.local", "true");
-            l = new Local();
-            Map<String, String> options = new HashMap<String, String>();
-            options.put("key", ACCESS_KEY);
-            l.start(options);
-        }		
-		
+	   //LoginPageElements.ClientLogin();
+	   
 	   report = ExtentFactory.getInstance(); 
 	   LoginPageElements = new Client_LoginPage(driver);
 	   BillingPageElements = new Client_BillingPage(driver);
@@ -164,18 +151,13 @@ public class Login {
 	   EditUserPageElements = new Client_EditUserPage(driver);
 	   RegisterDomainPageElements = new Client_RegisterDomainPage(driver);
 	   DomainNamesEditPageElements = new Client_DomainNamesEditPage(driver);
-		 
-		//LoginPageElements.ClientLogin();
-		
-
-		  
-		  
+		   
 	   driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
 		
 	   Thread.sleep(5000);		
 	}
 	
-	@After
+	@AfterMethod (groups = {"Sanity","Smoke","BS_Smoke","BS_Sanity","Sanity_Chrome"})
 	public void Logout () throws Exception {
 
 		driver.navigate().refresh();
@@ -185,95 +167,24 @@ public class Login {
 		report.flush();
 				 
 		driver.quit();
-		if (l != null) l.stop();
+		//if (l != null) l.stop();
 		
 	}
 
-	@Given("^Client is on Home Page$")
-	public void Client_is_on_Home_Page() throws Exception {
+	@Test (groups = {"Sanity","Smoke","BS_Smoke","BS_Sanity","Sanity_Chrome"})
+	public void Login_Validation() throws Exception {
 		
 		  report = ExtentFactory.getInstance3();
 		  
 		  test = report.startTest("Registered User Test --> User Login- " + "Valid Credentials");
 		  
-		  //LoginPageElements.LoadLoginPage();
-		  new Client_LoginPage(driver).LoadLoginPage();
+		  LoginPageElements.LoadLoginPage();
+		  //new Client_LoginPage(driver).LoadLoginPage();
 		  Thread.sleep(1000);
 		  test.log(LogStatus.INFO, "Browser Opened and Url Entered");
 		  test.log(LogStatus.INFO, "Login Page Loaded");
 		
 	}
 
-	@When("^Client enters Username and Password$")
-	public void Client_enters_Username_and_Password() throws InterruptedException {
-		
-		  LoginPageElements.ClickLoginLink();
-		  driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-		  test.log(LogStatus.INFO, "Clicked Login Link");
-		  
-		  LoginPageElements.EnterUserName("qa@ssl247.co.uk");
-		  driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-		  test.log(LogStatus.INFO, "Entereed Valid UserName");
-		  
-		  LoginPageElements.EnterPassword("Test1234");
-		  driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-		  test.log(LogStatus.INFO, "Entered Valid Password");
-		
-		Thread.sleep(1000);
-	}
-
-	@When("^Clicks Login button$")
-	public void clicks_Login_button() throws InterruptedException {
-		
-		  LoginPageElements.ClickLoginButton();
-		  driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-		  test.log(LogStatus.INFO, "Clicked Login Link");
-		
-		Thread.sleep(3000);
-	}
-
-	@Then("^Myssl Dashboard is opened$")
-	public void Myssl_Dashboard_is_opened() throws Exception {
-		
-		  try {
-				
-				 
-			 if(driver.getTitle().contains("MySSL® » Dashboard")){
-				 
-				 System.out.println("Admin User Logged In");
-				 driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-			 	 test.log(LogStatus.PASS, "Admin User Logged In");
-				 String path2 = ScreenShot.Image(driver, "Logout");
-				 String imagePath2 = test.addScreenCapture(path2);
-				 test.log(LogStatus.INFO, imagePath2);
-				 
-				 LoginPageElements.ClickLogoutButton();
-				 driver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
-				 
-			 }else {
-				 
-				 System.out.println("Dashboard Page NOT Opened");
-				 System.out.println("Title Page Displayed Is:- "+ driver.getTitle());
-			 	 test.log(LogStatus.FAIL, "Dashboard Page NOT Opened");
-			 	 
-			 }
-			  
-			}catch(Exception e) {
-				
-				test.log(LogStatus.FAIL, "Element Not Found");
-				test.log(LogStatus.INFO, e);
-				System.out.println("Element Not Found");
-				String path2 = ScreenShot.Image(driver, "Element");
-				String imagePath2 = test.addScreenCapture(path2);
-				test.log(LogStatus.INFO, imagePath2);
-				report.endTest(test);
-				report.flush();
-				System.out.println("Exception" + e);
-				Assert.fail("Exception " + e);
-			
-				}
-	}
-
-  
 
 }
