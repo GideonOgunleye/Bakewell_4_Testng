@@ -131,28 +131,28 @@ public class Login extends Chrome2 {
 	   //LoginPageElements.ClientLogin();
 	   
 	   report = ExtentFactory.getInstance(); 
-	   LoginPageElements = new Client_LoginPage(driver);
-	   BillingPageElements = new Client_BillingPage(driver);
-	   sslDashBoardElements = new Client_MySslDashBoard(driver);
-	   CsrElements = new CsR(driver);
-	   NavigationElements = new Client_NavigationLinks(driver);
-	   AlertBoxElements = new AlertBox(driver);
-	   IssuedCertificatesPageElements = new Client_IssuedCertificatesPage(driver);
-	   CertificateDetailsPageElements = new Client_CertificateDetailsPage(driver);
+	   LoginPageElements = new Client_LoginPage(eDriver);
+	   BillingPageElements = new Client_BillingPage(eDriver);
+	   sslDashBoardElements = new Client_MySslDashBoard(eDriver);
+	   CsrElements = new CsR(eDriver);
+	   NavigationElements = new Client_NavigationLinks(eDriver);
+	   AlertBoxElements = new AlertBox(eDriver);
+	   IssuedCertificatesPageElements = new Client_IssuedCertificatesPage(eDriver);
+	   CertificateDetailsPageElements = new Client_CertificateDetailsPage(eDriver);
 	   ScreenShot = new TakeScreenShot();
-	   MyProductsPageElements = new Client_MyProductsPage (driver);
-	   AddToBasketPageElements = new Client_AddToBasketPage (driver);
-	   ShoppingBasketPageElements = new Client_ShoppingBasketPage (driver);
-	   ViewOrderPageElements = new Client_ViewOrderPage(driver);
-	   CertificateValidationPageElements = new Client_CertificateValidationPage(driver);
-	   PendingCertificatesPageElements = new Client_PendingCertificatesPage(driver);
-	   MyUsersPageElements = new Client_MyUsersPage(driver);
-	   NewUserPageElements = new Client_NewUserPage(driver);
-	   EditUserPageElements = new Client_EditUserPage(driver);
-	   RegisterDomainPageElements = new Client_RegisterDomainPage(driver);
-	   DomainNamesEditPageElements = new Client_DomainNamesEditPage(driver);
+	   MyProductsPageElements = new Client_MyProductsPage (eDriver);
+	   AddToBasketPageElements = new Client_AddToBasketPage (eDriver);
+	   ShoppingBasketPageElements = new Client_ShoppingBasketPage (eDriver);
+	   ViewOrderPageElements = new Client_ViewOrderPage(eDriver);
+	   CertificateValidationPageElements = new Client_CertificateValidationPage(eDriver);
+	   PendingCertificatesPageElements = new Client_PendingCertificatesPage(eDriver);
+	   MyUsersPageElements = new Client_MyUsersPage(eDriver);
+	   NewUserPageElements = new Client_NewUserPage(eDriver);
+	   EditUserPageElements = new Client_EditUserPage(eDriver);
+	   RegisterDomainPageElements = new Client_RegisterDomainPage(eDriver);
+	   DomainNamesEditPageElements = new Client_DomainNamesEditPage(eDriver);
 		   
-	   driver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
+	   eDriver.manage().timeouts().implicitlyWait(10,TimeUnit.SECONDS);
 		
 	   Thread.sleep(5000);		
 	}
@@ -160,13 +160,13 @@ public class Login extends Chrome2 {
 	@AfterMethod (groups = {"Sanity","Smoke","BS_Smoke","BS_Sanity","Sanity_Chrome"})
 	public void Logout () throws Exception {
 
-		driver.navigate().refresh();
+		eDriver.navigate().refresh();
 
 		Thread.sleep(1000);
 		report.endTest(test);
 		report.flush();
 				 
-		driver.quit();
+		eDriver.quit();
 		//if (l != null) l.stop();
 		
 	}
@@ -183,6 +183,26 @@ public class Login extends Chrome2 {
 		  Thread.sleep(1000);
 		  test.log(LogStatus.INFO, "Browser Opened and Url Entered");
 		  test.log(LogStatus.INFO, "Login Page Loaded");
+		  
+		  LoginPageElements.ClickLoginLink();
+		  eDriver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		  test.log(LogStatus.INFO, "Clicked Login Link");
+		  
+		  LoginPageElements.EnterUserName("qa@ssl247.co.uk");
+		  eDriver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		  test.log(LogStatus.INFO, "Entereed Valid UserName");
+		  
+		  LoginPageElements.EnterPassword("Test1234");
+		  eDriver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		  test.log(LogStatus.INFO, "Entered Valid Password");
+		  
+		  Thread.sleep(1000);
+		  
+		  LoginPageElements.ClickLoginButton();
+		  eDriver.manage().timeouts().implicitlyWait(50, TimeUnit.SECONDS);
+		  test.log(LogStatus.INFO, "Clicked Login Link");
+		
+		  Thread.sleep(3000);
 		
 	}
 
